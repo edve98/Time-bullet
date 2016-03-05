@@ -3,6 +3,7 @@ using System.Collections;
 
 public class RobotAI : MonoBehaviour {
 
+	public int livesLeft = 3;
 	public Transform[] patrolPoints;
 	public float moveSpeed;
 	public float shootSpeed;
@@ -75,6 +76,10 @@ public class RobotAI : MonoBehaviour {
 			//Basic Clean Up, set the Bullets to self destruct after 10 Seconds, I am being VERY generous here, normally 3 seconds is plenty.
 			Destroy (Temporary_Bullet_Handler, 3.0f);
 			cooldown = shootSpeed;
+		}
+
+		if (livesLeft < 1) {
+			Destroy (gameObject);
 		}
 	}
 
