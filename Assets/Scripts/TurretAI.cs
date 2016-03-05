@@ -32,7 +32,6 @@ public class TurretAI : MonoBehaviour
 		}
 		else playerInSight = false;
 
-
         cooldown -= Time.deltaTime;
 
         //Debug.Log("PlayerInSight: " + playerInSight);

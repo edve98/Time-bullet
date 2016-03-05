@@ -45,7 +45,7 @@ public class PlayerControls : MonoBehaviour {
             {
                 timerStart = true;
             }
-            transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
+            transform.rotation = Quaternion.Euler(270f, transform.eulerAngles.y + 180f, 0f);
             if (Timer > delayTime) {
                 Move();
             }
@@ -70,7 +70,7 @@ public class PlayerControls : MonoBehaviour {
             {
                 timerStart = true;
             }
-            transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
+            transform.rotation = Quaternion.Euler(270f, transform.eulerAngles.y + 180f, 0f);
             if (Timer > delayTime)
             {
                 Shoot();
@@ -82,7 +82,7 @@ public class PlayerControls : MonoBehaviour {
     public float moveSpeed;
 
     void Move() {
-        rb.velocity = transform.forward * moveSpeed;
+        rb.velocity = transform.up * moveSpeed;
     }
 
     public float bulletSpeed;
