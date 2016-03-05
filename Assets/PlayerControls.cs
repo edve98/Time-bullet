@@ -30,9 +30,10 @@ public class PlayerControls : MonoBehaviour {
 
         if (Input.GetMouseButton(0) && Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(mouseWorldSpace.x, mouseWorldSpace.z)) > mouseFix)
         {
+            timeLeft -= Time.deltaTime;
             var targetRotation = Quaternion.LookRotation(mouseWorldSpace - transform.position);
             //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
-            transform.rotation = Quaternion.Euler(0f, targetRotation.y, 0f);
+            transform.rotation = targetRotation;
             if (targetRotation.y - transform.rotation.y <= 1f && targetRotation.y - transform.rotation.y >= -1f)
             {
                 timerStart = true;
