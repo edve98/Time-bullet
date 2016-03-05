@@ -1,7 +1,5 @@
 fileFormatVersion: 2
-guid: 7a5f266442070d54e8bdfab4359260ec
-timeCreated: 1457180727
-licenseType: Free
+guid: 0316184468d28064cb491e05534cc36d
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
@@ -10,6 +8,7 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: Cube
+    9500000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -34,7 +33,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
@@ -68,7 +67,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
