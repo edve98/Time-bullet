@@ -23,6 +23,8 @@ public class PlayerControls : MonoBehaviour {
     public float delayTime = 0.2f;
     public float mouseFix;
 
+    public GameObject bulletmove;
+
     void Control()
     {
         Vector3 mouseScreenPosition = Input.mousePosition;
@@ -94,7 +96,6 @@ public class PlayerControls : MonoBehaviour {
         {
             coolDownState = true;
 			bullit = Instantiate(bullet, bulletSpawn.transform.position, bulletSpawn.transform.rotation) as GameObject;
-            //bullit.transform.Rotate(Vector3.left * 90);
         }
     }
 
