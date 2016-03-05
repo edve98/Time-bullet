@@ -13,7 +13,7 @@ public class BulletDestroy : MonoBehaviour {
 
 	void Update () {
         Rigidbody bullitrb = gameObject.GetComponent<Rigidbody>();
-        bullitrb.velocity = transform.forward * bulletSpeed * Time.deltaTime * 10;
+        bullitrb.velocity = transform.up * bulletSpeed * Time.deltaTime * 10;
 
     }
 

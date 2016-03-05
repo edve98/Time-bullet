@@ -32,7 +32,6 @@ public class TurretAI : MonoBehaviour
 		}
 		else playerInSight = false;
 
-
         cooldown -= Time.deltaTime;
 
         Debug.Log("PlayerInSight: " + playerInSight);
@@ -41,7 +40,7 @@ public class TurretAI : MonoBehaviour
         if (playerInSight && inRadius){
 			var targetRotation = Quaternion.LookRotation (player.transform.position - transform.position);
 			transform.rotation = targetRotation;
-			gameObject.transform.rotation = Quaternion.Euler(transform.eulerAngles.x, 0f, 0f);
+			gameObject.transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, transform.eulerAngles.z);
 			Debug.Log (targetRotation);
 
 			//The Bullet instantiation happens here.
