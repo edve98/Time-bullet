@@ -23,9 +23,6 @@ public class TurretAI : MonoBehaviour
 
     // Update is called once per frame
     void Update () {
-		if (transform.rotation.x  > 0) {
-			gameObject.transform.rotation = Quaternion.Euler(0f, 0f, transform.eulerAngles.y);
-		}
 
 		RaycastHit hitInfo;
 		bool colliderInTheWay = Physics.Linecast(transform.position, player.transform.position, out hitInfo);
@@ -37,11 +34,14 @@ public class TurretAI : MonoBehaviour
 
 
         cooldown -= Time.deltaTime;
-        
-		if (playerInSight && inRadius){
+
+        Debug.Log("PlayerInSight: " + playerInSight);
+        Debug.Log("inRadius: " + inRadius);
+
+        if (playerInSight && inRadius){
 			var targetRotation = Quaternion.LookRotation (player.transform.position - transform.position);
 			transform.rotation = targetRotation;
-			gameObject.transform.rotation = Quaternion.Euler(0f, 0f, transform.eulerAngles.y);
+			gameObject.transform.rotation = Quaternion.Euler(transform.eulerAngles.x, 0f, 0f);
 			Debug.Log (targetRotation);
 
 			//The Bullet instantiation happens here.
