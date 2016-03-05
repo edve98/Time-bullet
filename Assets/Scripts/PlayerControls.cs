@@ -5,6 +5,7 @@ public class PlayerControls : MonoBehaviour {
 
     // Use this for initialization
 
+	public GameObject bulletSpawn;
     public GameObject bullet;
     Rigidbody rb;
     IngameMenu menuRef;
@@ -92,7 +93,7 @@ public class PlayerControls : MonoBehaviour {
         if (coolDownState == false)
         {
             coolDownState = true;
-            bullit = Instantiate(bullet, GameObject.FindGameObjectWithTag("Player").transform.position, GameObject.FindGameObjectWithTag("Player").transform.rotation) as GameObject;
+			bullit = Instantiate(bullet, bulletSpawn.transform.position, bulletSpawn.transform.rotation) as GameObject;
             //bullit.transform.Rotate(Vector3.left * 90);
         }
     }

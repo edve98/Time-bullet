@@ -25,6 +25,6 @@ public class BulletDestroy : MonoBehaviour {
 		if (obj.gameObject.tag == "Player"){
 			obj.gameObject.GetComponent<PlayerControls>().livesLeft--;
 		}
-		//Destroy(gameObject);
+		Destroy(gameObject);
     }
 }
