@@ -5,8 +5,9 @@ public class PlayerControls : MonoBehaviour {
 
     // Use this for initialization
 
-    public Rigidbody rb;
-	void Start () {
+    public GameObject bullet;
+    Rigidbody rb;
+    void Start() {
         rb = GetComponent<Rigidbody>();
     }
 
@@ -28,11 +29,12 @@ public class PlayerControls : MonoBehaviour {
         Vector3 mouseScreenPosition = Input.mousePosition;
         Vector3 mouseWorldSpace = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
 
-        if (Input.GetMouseButton(0) && Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(mouseWorldSpace.x, mouseWorldSpace.z)) > mouseFix)
+        if (Input.GetMouseButton(0) && Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(mouseWorldSpace.x, mouseWorldSpace.z)) > mouseFix && shootingMode == false)
         {
+            timeLeft -= Time.deltaTime;
             var targetRotation = Quaternion.LookRotation(mouseWorldSpace - transform.position);
             //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
-            transform.rotation = Quaternion.Euler(0f, targetRotation.y, 0f);
+            transform.rotation = targetRotation;
             if (targetRotation.y - transform.rotation.y <= 1f && targetRotation.y - transform.rotation.y >= -1f)
             {
                 timerStart = true;
@@ -47,12 +49,55 @@ public class PlayerControls : MonoBehaviour {
         {
             rb.velocity = new Vector3(0f, 0f, 0f);
         }
+
+        if (Input.GetMouseButton(0) && shootingMode == true) {
+            timeLeft -= Time.deltaTime;
+            var targetRotation = Quaternion.LookRotation(mouseWorldSpace - transform.position);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
+            transform.rotation = targetRotation;
+            if (targetRotation.y - transform.rotation.y <= 1f && targetRotation.y - transform.rotation.y >= -1f)
+            {
+                timerStart = true;
+            }
+            transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
+            if (Timer > delayTime)
+            {
+                Shoot();
+            }
+
+        }
     }
 
     public float moveSpeed;
 
     void Move() {
-            rb.velocity = transform.forward * moveSpeed; 
+        rb.velocity = transform.forward * moveSpeed;
+    }
+
+    public float bulletSpeed;
+
+    GameObject bullit;
+    bool coolDownState = false;
+
+    void Shoot()
+    {
+        if (coolDownState == false)
+        {
+            coolDownState = true;
+            StartCoroutine(ShootDelay());
+            bullit = Instantiate(bullet, GameObject.FindGameObjectWithTag("Player").transform.position, GameObject.FindGameObjectWithTag("Player").transform.rotation) as GameObject;
+            //bullit.transform.Rotate(Vector3.left * 90);
+            Rigidbody bullitrb = bullit.GetComponent<Rigidbody>();
+            bullitrb.AddForce(transform.forward * bulletSpeed * Time.deltaTime * 1000);
+        }
+    }
+
+    public float coolDownTime;
+
+    IEnumerator ShootDelay() {
+        yield return new WaitForSeconds(coolDownTime);
+        coolDownState = false;
+        Debug.Log(coolDownState);
     }
 
     void Delay() {
@@ -64,11 +109,24 @@ public class PlayerControls : MonoBehaviour {
         {
             Timer = 0;
             timerStart = false;
-            rb.velocity = new Vector3(0f, 0f ,0f);
+            rb.velocity = new Vector3(0f, 0f, 0f);
         }
 
     }
 
+    bool shootingMode = false;
+
+    void ModeSwitch()
+    {
+        if (Input.GetMouseButtonDown(1) && shootingMode == false)
+        {
+            shootingMode = true;
+        }
+        else if (Input.GetMouseButtonDown(1) && shootingMode == true)
+        {
+            shootingMode = false;
+        }
+    }
     bool timerStart = false;
     float Timer;
 
@@ -76,6 +134,7 @@ public class PlayerControls : MonoBehaviour {
     void Update () {
         Control();
         Delay();
+        ModeSwitch();
 	}
 
 }
