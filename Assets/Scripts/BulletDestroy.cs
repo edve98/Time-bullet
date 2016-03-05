@@ -17,11 +17,13 @@ public class BulletDestroy : MonoBehaviour {
 
     }
 
-    void OnTriggerEnter(Collider obj)
-    {
-        if (!obj.isTrigger && !obj.gameObject.CompareTag("Player"))
-        {
-            Destroy(gameObject);
+    void OnCollisionEnter (Collision obj) {
+		if (obj.gameObject.tag == "Enemy") {
+			Destroy(obj.gameObject);
         }
+		if (obj.gameObject.tag == "Player"){
+			obj.gameObject.GetComponent<PlayerControls>().livesLeft--;
+		}
+		Destroy(gameObject);
     }
 }

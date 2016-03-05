@@ -4,9 +4,9 @@ using System.Collections;
 //turent should have colider and be a trigger!
 public class TurretAI : MonoBehaviour
 {
-    public float smooth = 20.0F;
+    public float turningSpeed = 20.0F;
 	GameObject player;
-    public float speed = 1.0f;
+    public float shootSpeed = 1.0f;
     float cooldown = 0;
 
     public GameObject Bullet_Emitter;
@@ -17,7 +17,7 @@ public class TurretAI : MonoBehaviour
 
     void Start() {
 		player = GameObject.FindGameObjectWithTag ("Player");
-        cooldown = speed;
+        cooldown = shootSpeed;
     }
 
     // Update is called once per frame
@@ -35,7 +35,7 @@ public class TurretAI : MonoBehaviour
         
 		if (playerInSight){
 
-			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(player.transform.position - transform.position), Time.deltaTime * smooth);
+			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(player.transform.position - transform.position), Time.deltaTime * turningSpeed);
 
 			//The Bullet instantiation happens here.
 			if (cooldown <= 0){
@@ -44,7 +44,7 @@ public class TurretAI : MonoBehaviour
 
 				//Sometimes bullets may appear rotated incorrectly due to the way its pivot was set from the original modeling package.
 				//This is EASILY corrected here, you might have to rotate it from a different axis and or angle based on your particular mesh.
-				Temporary_Bullet_Handler.transform.Rotate(Vector3.left * 90);
+				//Temporary_Bullet_Handler.transform.Rotate(Vector3.left * 90);
 
 				//Retrieve the Rigidbody component from the instantiated Bullet and control it.
 				Rigidbody Temporary_RigidBody;
@@ -53,7 +53,7 @@ public class TurretAI : MonoBehaviour
 				//Tell the bullet to be "pushed" forward by an amount set by Bullet_Forward_Force.
 				Temporary_RigidBody.AddForce(transform.forward * Bullet_Forward_Force);
 
-				cooldown = speed;
+				cooldown = shootSpeed;
 
 			}
 		}

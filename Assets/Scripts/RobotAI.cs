@@ -41,7 +41,6 @@ public class RobotAI : MonoBehaviour {
 			if (currentPoint >= patrolPoints.Length) currentPoint = 0;
 		}
 
-		Debug.Log(currentPoint);
 		if (playerInSight == false){
 			agent.SetDestination(patrolPoints[currentPoint].position);
 		}
