@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c213c1d1a4371e245af360abd18cd346
+guid: d78d4cd56c459bd4ea1eae7160b902d8
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
@@ -7,7 +7,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: turet stock
+    4300000: turret
     9500000: //RootNode
   materials:
     importMaterials: 1
