@@ -5,6 +5,7 @@ public class PlayerControls : MonoBehaviour {
 
     // Use this for initialization
 
+	public GameObject bulletSpawn;
     public GameObject bullet;
     Rigidbody rb;
     IngameMenu menuRef;
@@ -22,13 +23,14 @@ public class PlayerControls : MonoBehaviour {
     public float delayTime = 0.2f;
     public float mouseFix;
 
+    public GameObject bulletmove;
+
     void Control()
     {
         Vector3 mouseScreenPosition = Input.mousePosition;
-        Vector3 mouseWorldSpace = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+        Vector3 mouseWorldSpace = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         TimeMoving = false;
 
-        Debug.Log(TimeMoving);
 
         if (Input.GetMouseButton(0) 
             && Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(mouseWorldSpace.x, mouseWorldSpace.z)) > mouseFix 
@@ -45,7 +47,7 @@ public class PlayerControls : MonoBehaviour {
             {
                 timerStart = true;
             }
-            transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
+            transform.rotation = Quaternion.Euler(270f, transform.eulerAngles.y + 180f, 0f);
             if (Timer > delayTime) {
                 Move();
             }
@@ -56,8 +58,6 @@ public class PlayerControls : MonoBehaviour {
             TimeMoving = false;
             rb.velocity = new Vector3(0f, 0f, 0f);
         }
-
-        Debug.Log(TimeMoving);
 
         if (Input.GetMouseButton(0) && shootingMode == true && switching == false && menu == false) {
             TimeMoving = true;
@@ -70,7 +70,7 @@ public class PlayerControls : MonoBehaviour {
             {
                 timerStart = true;
             }
-            transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
+            transform.rotation = Quaternion.Euler(270f, transform.eulerAngles.y + 180f, 0f);
             if (Timer > delayTime)
             {
                 Shoot();
@@ -82,7 +82,7 @@ public class PlayerControls : MonoBehaviour {
     public float moveSpeed;
 
     void Move() {
-        rb.velocity = transform.forward * moveSpeed;
+        rb.velocity = transform.up * moveSpeed;
     }
 
     public float bulletSpeed;
@@ -95,8 +95,7 @@ public class PlayerControls : MonoBehaviour {
         if (coolDownState == false)
         {
             coolDownState = true;
-            bullit = Instantiate(bullet, GameObject.FindGameObjectWithTag("Player").transform.position, GameObject.FindGameObjectWithTag("Player").transform.rotation) as GameObject;
-            //bullit.transform.Rotate(Vector3.left * 90);
+			bullit = Instantiate(bullet, bulletSpawn.transform.position, bulletSpawn.transform.rotation) as GameObject;
         }
     }
 
@@ -197,7 +196,6 @@ public class PlayerControls : MonoBehaviour {
         if (!TimeMoving)
         {
             Time.timeScale = 0.0000001F;
-            Debug.Log("Time is not moving");
         }
         if (TimeMoving)
         {

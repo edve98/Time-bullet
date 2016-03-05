@@ -4,6 +4,7 @@ using System.Collections;
 //turent should have colider and be a trigger!
 public class TurretAI : MonoBehaviour
 {
+	public int livesLeft = 5;
     public float turningSpeed = 20.0F;
 	GameObject player;
     public float shootSpeed = 1.0f;
@@ -27,22 +28,19 @@ public class TurretAI : MonoBehaviour
 		RaycastHit hitInfo;
 		bool colliderInTheWay = Physics.Linecast(transform.position, player.transform.position, out hitInfo);
 
-		if(hitInfo.transform.gameObject.tag == "Player" || colliderInTheWay == false){
+		if(colliderInTheWay == false){
 			playerInSight = true;
 		}
+		else if(hitInfo.transform.gameObject.tag == "Player") playerInSight = true;
 		else playerInSight = false;
 
-
         cooldown -= Time.deltaTime;
-
-        Debug.Log("PlayerInSight: " + playerInSight);
-        Debug.Log("inRadius: " + inRadius);
 
         if (playerInSight && inRadius){
 			var targetRotation = Quaternion.LookRotation (player.transform.position - transform.position);
 			transform.rotation = targetRotation;
-			gameObject.transform.rotation = Quaternion.Euler(transform.eulerAngles.x, 0f, 0f);
-			Debug.Log (targetRotation);
+			gameObject.transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, transform.eulerAngles.z);
+
 
 			//The Bullet instantiation happens here.
 			if (cooldown <= 0){
@@ -63,6 +61,10 @@ public class TurretAI : MonoBehaviour
 				cooldown = shootSpeed;
 
 			}
+		}
+
+		if (livesLeft < 1) {
+			Destroy (gameObject);
 		}
 
     }

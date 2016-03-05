@@ -3,6 +3,7 @@ using System.Collections;
 
 public class RobotAI : MonoBehaviour {
 
+	public int livesLeft = 3;
 	public Transform[] patrolPoints;
 	public float moveSpeed;
 	public float shootSpeed;
@@ -30,10 +31,11 @@ public class RobotAI : MonoBehaviour {
 	void Update() {
 		RaycastHit hitInfo;
 		bool colliderInTheWay = Physics.Linecast(transform.position, player.transform.position, out hitInfo);
-		
-		if(hitInfo.transform.gameObject.tag == "Player" || colliderInTheWay == false){
+
+		if(colliderInTheWay == false){
 			playerInSight = true;
 		}
+		else if(hitInfo.transform.gameObject.tag == "Player") playerInSight = true;
 		else playerInSight = false;
 
 
@@ -53,8 +55,10 @@ public class RobotAI : MonoBehaviour {
 	}
 
 	void shootingMode(){
-		transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (player.transform.position - transform.position), Time.deltaTime * 20f);
-
+		//transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (player.transform.position - transform.position), Time.deltaTime * 50f);
+		var targetRotation = Quaternion.LookRotation (player.transform.position - transform.position);
+		transform.rotation = targetRotation;
+		gameObject.transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, transform.eulerAngles.z);
 
 		//The Bullet instantiation happens here.
 		if (cooldown <= 0) {
@@ -75,6 +79,10 @@ public class RobotAI : MonoBehaviour {
 			//Basic Clean Up, set the Bullets to self destruct after 10 Seconds, I am being VERY generous here, normally 3 seconds is plenty.
 			Destroy (Temporary_Bullet_Handler, 3.0f);
 			cooldown = shootSpeed;
+		}
+
+		if (livesLeft < 1) {
+			Destroy (gameObject);
 		}
 	}
 
