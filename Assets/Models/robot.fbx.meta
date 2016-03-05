@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Models/robot.fbx.meta
+guid: 0316184468d28064cb491e05534cc36d
+timeCreated: 1457180989
+=======
 guid: 7a5f266442070d54e8bdfab4359260ec
 timeCreated: 1457180727
+>>>>>>> cf2497feed79560bdb478a853b274d20a8eea797:Assets/Models/robot.fbx.meta
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
