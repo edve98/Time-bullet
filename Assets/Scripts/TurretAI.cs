@@ -14,6 +14,7 @@ public class TurretAI : MonoBehaviour
     public float Bullet_Forward_Force = 5000f;
 
 	bool playerInSight;
+	bool inRadius = false;
 
     void Start() {
 		player = GameObject.FindGameObjectWithTag ("Player");
@@ -33,7 +34,7 @@ public class TurretAI : MonoBehaviour
 
         cooldown -= Time.deltaTime;
         
-		if (playerInSight){
+		if (playerInSight && inRadius){
 
 			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(player.transform.position - transform.position), Time.deltaTime * turningSpeed);
 
@@ -60,4 +61,15 @@ public class TurretAI : MonoBehaviour
 
     }
 
+	void OnTriggerExit(Collider col){
+		if(col.tag == "Player"){
+			inRadius = false;
+		}
+	}
+
+	void OnTriggerEnter(Collider col){
+		if(col.tag == "Player"){
+			inRadius = true;
+		}
+	}
 }

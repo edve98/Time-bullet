@@ -8,6 +8,7 @@ public class RobotAI : MonoBehaviour {
 	public float shootSpeed;
 	private int currentPoint;
 	private bool playerInSight;
+	bool inRadius = false;
 	GameObject player;
 
 	public GameObject Bullet_Emitter;
@@ -41,13 +42,13 @@ public class RobotAI : MonoBehaviour {
 			if (currentPoint >= patrolPoints.Length) currentPoint = 0;
 		}
 
-		if (playerInSight == false){
-			agent.SetDestination(patrolPoints[currentPoint].position);
-		}
-		else{
+		if (playerInSight && inRadius){
 			cooldown -= Time.deltaTime;
 			agent.SetDestination(transform.position);
 			shootingMode ();
+		}
+		else{
+			agent.SetDestination(patrolPoints[currentPoint].position);
 		}
 	}
 
@@ -74,6 +75,18 @@ public class RobotAI : MonoBehaviour {
 			//Basic Clean Up, set the Bullets to self destruct after 10 Seconds, I am being VERY generous here, normally 3 seconds is plenty.
 			Destroy (Temporary_Bullet_Handler, 3.0f);
 			cooldown = shootSpeed;
+		}
+	}
+
+	void OnTriggerExit(Collider col){
+		if(col.tag == "Player"){
+			inRadius = false;
+		}
+	}
+
+	void OnTriggerEnter(Collider col){
+		if(col.tag == "Player"){
+			inRadius = true;
 		}
 	}
 }
