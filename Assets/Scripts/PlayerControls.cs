@@ -28,7 +28,7 @@ public class PlayerControls : MonoBehaviour {
     void Control()
     {
         Vector3 mouseScreenPosition = Input.mousePosition;
-        Vector3 mouseWorldSpace = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+        Vector3 mouseWorldSpace = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         TimeMoving = false;
 
 
