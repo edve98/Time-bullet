@@ -5,13 +5,13 @@ using UnityEngine.UI;
 public class BulletsLeft : MonoBehaviour {
 
 	public Text bulletText;
-	//PlayerControlls playerCtrl;
+	PlayerControls playerCtrl;
 
 	void Start () {
-		//player = GameObject.FindGameObjectWithTag("Player").GetComponent(PlayerControlls);
+		playerCtrl = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControls>();
 	}
 
 	void Update () {
-		//timeText.text = "Bullets left: " + playerCtrl.bulletsLeft + "s";
+		bulletText.text = "Bullets left: " + playerCtrl.bulletsLeft;
 	}
 }

@@ -5,13 +5,13 @@ using UnityEngine.UI;
 public class TimeLeft : MonoBehaviour {
 
 	public Text timeText;
-	//PlayerControlls playerCtrl;
+	PlayerControls playerCtrl;
 
 	void Start () {
-		//player = GameObject.FindGameObjectWithTag("Player").GetComponent(PlayerControlls);
+		playerCtrl = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControls>();
 	}
 
 	void Update () {
-		//timeText.text = "Time left: " + playerCtrl.timeLeft + "s";
+		timeText.text = "Time left: " + playerCtrl.timeLeft + "s";
 	}
 }
