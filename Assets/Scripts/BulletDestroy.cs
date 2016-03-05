@@ -17,8 +17,8 @@ public class BulletDestroy : MonoBehaviour {
 
     }
 
-    void OnTriggerEnter (Collider obj) {
-		Debug.Log ("Hello from the other side");
+    void OnCollisionEnter (Collision obj) {
+		Debug.Log ("Hello from the other side to: " + obj.gameObject.name);
 		if (obj.gameObject.tag == "Enemy") {
 			Destroy(obj.gameObject);
         }
