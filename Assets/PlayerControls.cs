@@ -13,9 +13,6 @@ public class PlayerControls : MonoBehaviour {
 
     public float speed = 2;
 
-    bool leftMouseDown = false;
-    bool delayStart = false;
-
     public int livesLeft = 10;
     public int bulletsLeft = 50;
     public float timeLeft = 60;
@@ -25,12 +22,16 @@ public class PlayerControls : MonoBehaviour {
 
     void Control()
     {
-        Vector3 upAxis = new Vector3(0, 0, -1);
         Vector3 mouseScreenPosition = Input.mousePosition;
         Vector3 mouseWorldSpace = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+        TimeMoving = false;
 
-        if (Input.GetMouseButton(0) && Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(mouseWorldSpace.x, mouseWorldSpace.z)) > mouseFix && shootingMode == false)
+        if (Input.GetMouseButton(0) 
+            && Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(mouseWorldSpace.x, mouseWorldSpace.z)) > mouseFix 
+            && shootingMode == false 
+            && switching == false)
         {
+            TimeMoving = true;
             timeLeft -= Time.deltaTime;
             var targetRotation = Quaternion.LookRotation(mouseWorldSpace - transform.position);
             //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
@@ -47,11 +48,14 @@ public class PlayerControls : MonoBehaviour {
 
         if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(mouseWorldSpace.x, mouseWorldSpace.z)) < mouseFix)
         {
+            TimeMoving = false;
             rb.velocity = new Vector3(0f, 0f, 0f);
         }
 
-        if (Input.GetMouseButton(0) && shootingMode == true) {
+        if (Input.GetMouseButton(0) && shootingMode == true && switching == false) {
+            TimeMoving = true;
             timeLeft -= Time.deltaTime;
+            rb.velocity = new Vector3(0f, 0f, 0f);
             var targetRotation = Quaternion.LookRotation(mouseWorldSpace - transform.position);
             //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
             transform.rotation = targetRotation;
@@ -84,20 +88,25 @@ public class PlayerControls : MonoBehaviour {
         if (coolDownState == false)
         {
             coolDownState = true;
-            StartCoroutine(ShootDelay());
             bullit = Instantiate(bullet, GameObject.FindGameObjectWithTag("Player").transform.position, GameObject.FindGameObjectWithTag("Player").transform.rotation) as GameObject;
             //bullit.transform.Rotate(Vector3.left * 90);
-            Rigidbody bullitrb = bullit.GetComponent<Rigidbody>();
-            bullitrb.AddForce(transform.forward * bulletSpeed * Time.deltaTime * 1000);
         }
     }
 
     public float coolDownTime;
-
-    IEnumerator ShootDelay() {
-        yield return new WaitForSeconds(coolDownTime);
-        coolDownState = false;
-        Debug.Log(coolDownState);
+    float coolDownTimer;
+    void ShootDelay() {
+        if (coolDownState)
+        {
+            TimeMoving = true;
+            coolDownTimer += Time.deltaTime;
+            if (coolDownTimer > coolDownTime)
+            {
+                coolDownTimer = 0;
+                coolDownState = false;
+                TimeMoving = false;
+            }
+        }
     }
 
     void Delay() {
@@ -115,18 +124,50 @@ public class PlayerControls : MonoBehaviour {
     }
 
     bool shootingMode = false;
+    public float switchTime;
+    bool switching = false;
 
     void ModeSwitch()
     {
-        if (Input.GetMouseButtonDown(1) && shootingMode == false)
+        if (Input.GetMouseButtonDown(1) && shootingMode == false && switching == false)
         {
-            shootingMode = true;
+            switching = true;
         }
-        else if (Input.GetMouseButtonDown(1) && shootingMode == true)
+        else if (Input.GetMouseButtonDown(1) && shootingMode == true && switching == false)
         {
-            shootingMode = false;
+            switching = true;
         }
     }
+
+    float switchTiming;
+
+    void SwitchTimer()
+    {
+        if (switching == true)
+        {
+            TimeMoving = true;
+            switchTiming += Time.deltaTime;
+            timeLeft -= Time.deltaTime;
+
+            if (!shootingMode)
+            {
+                rb.velocity = new Vector3(0f, 0f, 0f);
+            }
+
+            if (switchTiming >= switchTime)
+            {
+                if (shootingMode)
+                {
+                    shootingMode = false;
+                }
+                else shootingMode = true;
+                switching = false;
+                switchTiming = 0;
+                TimeMoving = false;
+            }
+        }
+    }
+
     bool timerStart = false;
     float Timer;
 
@@ -135,6 +176,24 @@ public class PlayerControls : MonoBehaviour {
         Control();
         Delay();
         ModeSwitch();
+        SwitchTimer();
+        TimeFlowSetter();
+        ShootDelay();
 	}
+
+    bool TimeMoving = false;
+
+    void TimeFlowSetter()
+    {
+        if (!TimeMoving)
+        {
+            Time.timeScale = 0.0000001F;
+            Debug.Log("Time is not moving");
+        }
+        if (TimeMoving)
+        {
+            Time.timeScale = 1.0f;
+        }
+    }
 
 }
