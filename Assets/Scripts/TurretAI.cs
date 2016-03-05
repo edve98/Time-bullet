@@ -21,7 +21,7 @@ public class TurretAI : MonoBehaviour
     void Update()
     {
         cooldown -= Time.deltaTime;
-        Debug.Log(cooldown);
+        //Debug.Log(cooldown);
 
         if (exit == true) {
             cooldown = speed;
@@ -33,8 +33,12 @@ public class TurretAI : MonoBehaviour
     void OnTriggerStay(Collider obj) {
             if (obj.gameObject.CompareTag("Player"))
             {
+            //reikia raycast
             exit = false;
+            //if (this.gameObject.CompareTag("Turret")){
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target.position - transform.position), Time.deltaTime * smooth);
+            
+                
                 //The Bullet instantiation happens here.
                 if (cooldown <= 0)
                 {
