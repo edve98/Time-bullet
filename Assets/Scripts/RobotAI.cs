@@ -31,10 +31,11 @@ public class RobotAI : MonoBehaviour {
 	void Update() {
 		RaycastHit hitInfo;
 		bool colliderInTheWay = Physics.Linecast(transform.position, player.transform.position, out hitInfo);
-		
-		if(hitInfo.transform.gameObject.tag == "Player" || colliderInTheWay == false){
+
+		if(colliderInTheWay == false){
 			playerInSight = true;
 		}
+		else if(hitInfo.transform.gameObject.tag == "Player") playerInSight = true;
 		else playerInSight = false;
 
 
@@ -54,8 +55,10 @@ public class RobotAI : MonoBehaviour {
 	}
 
 	void shootingMode(){
-		transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (player.transform.position - transform.position), Time.deltaTime * 20f);
-
+		//transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (player.transform.position - transform.position), Time.deltaTime * 50f);
+		var targetRotation = Quaternion.LookRotation (player.transform.position - transform.position);
+		transform.rotation = targetRotation;
+		gameObject.transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, transform.eulerAngles.z);
 
 		//The Bullet instantiation happens here.
 		if (cooldown <= 0) {
