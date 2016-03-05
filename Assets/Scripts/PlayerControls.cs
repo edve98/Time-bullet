@@ -28,6 +28,8 @@ public class PlayerControls : MonoBehaviour {
         Vector3 mouseWorldSpace = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
         TimeMoving = false;
 
+        Debug.Log(TimeMoving);
+
         if (Input.GetMouseButton(0) 
             && Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(mouseWorldSpace.x, mouseWorldSpace.z)) > mouseFix 
             && shootingMode == false 
@@ -54,6 +56,8 @@ public class PlayerControls : MonoBehaviour {
             TimeMoving = false;
             rb.velocity = new Vector3(0f, 0f, 0f);
         }
+
+        Debug.Log(TimeMoving);
 
         if (Input.GetMouseButton(0) && shootingMode == true && switching == false && menu == false) {
             TimeMoving = true;
@@ -186,7 +190,7 @@ public class PlayerControls : MonoBehaviour {
         ShootDelay();
 	}
 
-    bool TimeMoving = false;
+    public bool TimeMoving = false;
 
     void TimeFlowSetter()
     {
