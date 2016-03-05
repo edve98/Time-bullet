@@ -5,7 +5,7 @@ public class PlayerControls : MonoBehaviour {
 
     // Use this for initialization
 
-    public Transform bullet;
+    public GameObject bullet;
     Rigidbody rb;
     void Start() {
         rb = GetComponent<Rigidbody>();
@@ -76,13 +76,28 @@ public class PlayerControls : MonoBehaviour {
 
     public float bulletSpeed;
 
+    GameObject bullit;
+    bool coolDownState = false;
+
     void Shoot()
     {
-        GameObject bullit;
-        bullit = new GameObject(Instantiate(bullet, transform.position, transform.rotation));
-        bullit.transform.Rotate(Vector3.left * 90);
-        Rigidbody bullitrb = bullit.GetComponent<Rigidbody>();
-        bullit.velocity = transform.forward * bulletSpeed; 
+        if (coolDownState == false)
+        {
+            coolDownState = true;
+            StartCoroutine(ShootDelay());
+            bullit = Instantiate(bullet, GameObject.FindGameObjectWithTag("Player").transform.position, GameObject.FindGameObjectWithTag("Player").transform.rotation) as GameObject;
+            //bullit.transform.Rotate(Vector3.left * 90);
+            Rigidbody bullitrb = bullit.GetComponent<Rigidbody>();
+            bullitrb.AddForce(transform.forward * bulletSpeed * Time.deltaTime * 1000);
+        }
+    }
+
+    public float coolDownTime;
+
+    IEnumerator ShootDelay() {
+        yield return new WaitForSeconds(coolDownTime);
+        coolDownState = false;
+        Debug.Log(coolDownState);
     }
 
     void Delay() {
