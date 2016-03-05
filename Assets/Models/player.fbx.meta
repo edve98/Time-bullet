@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 112721bd484a23a4b9c85d6d8f8b0589
-timeCreated: 1457179789
+guid: e2be3aeb46cb10844803f6c9af66cca6
+timeCreated: 1457180727
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -9,9 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: turet_stock
-    7400000: Default Take
-    9500000: //RootNode
+    4300000: player
   materials:
     importMaterials: 1
     materialName: 0
@@ -70,7 +68,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
