@@ -7,8 +7,10 @@ public class PlayerControls : MonoBehaviour {
 
     public GameObject bullet;
     Rigidbody rb;
+    IngameMenu menuRef;
     void Start() {
         rb = GetComponent<Rigidbody>();
+        menuRef = gameObject.GetComponent<IngameMenu>();
     }
 
     public float speed = 2;
@@ -29,7 +31,8 @@ public class PlayerControls : MonoBehaviour {
         if (Input.GetMouseButton(0) 
             && Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(mouseWorldSpace.x, mouseWorldSpace.z)) > mouseFix 
             && shootingMode == false 
-            && switching == false)
+            && switching == false
+            && menu == false)
         {
             TimeMoving = true;
             timeLeft -= Time.deltaTime;
@@ -52,7 +55,7 @@ public class PlayerControls : MonoBehaviour {
             rb.velocity = new Vector3(0f, 0f, 0f);
         }
 
-        if (Input.GetMouseButton(0) && shootingMode == true && switching == false) {
+        if (Input.GetMouseButton(0) && shootingMode == true && switching == false && menu == false) {
             TimeMoving = true;
             timeLeft -= Time.deltaTime;
             rb.velocity = new Vector3(0f, 0f, 0f);
@@ -168,11 +171,13 @@ public class PlayerControls : MonoBehaviour {
         }
     }
 
+    bool menu;
     bool timerStart = false;
     float Timer;
 
     // Update is called once per frame
     void Update () {
+        menu = menuRef.menuActive;
         Control();
         Delay();
         ModeSwitch();
