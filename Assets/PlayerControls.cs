@@ -17,7 +17,7 @@ public class PlayerControls : MonoBehaviour {
 
     public int livesLeft = 10;
     public int bulletsLeft = 50;
-    float timeLeft = 60;
+    public float timeLeft = 60;
 
     public float delayTime = 0.2f;
     public float mouseFix;

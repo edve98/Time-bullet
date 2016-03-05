@@ -5,13 +5,13 @@ using UnityEngine.UI;
 public class LivesLeft : MonoBehaviour {
 
 	public Text livesText;
-	//PlayerControlls playerCtrl;
+	PlayerControls playerCtrl;
 
 	void Start () {
-		//player = GameObject.FindGameObjectWithTag("Player").GetComponent(PlayerControlls);
+		playerCtrl = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControls>();
 	}
 
 	void Update () {
-		//timeText.text = "Lives left: " + playerCtrl.livesLeft + "s";
+		livesText.text = "Lives left: " + playerCtrl.livesLeft;
 	}
 }
