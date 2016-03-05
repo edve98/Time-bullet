@@ -24,7 +24,5 @@ public class SoundOptions : MonoBehaviour {
 
 		muteMusic = musicToggle.isOn;
 		muteSfx = sfxToggle.isOn;
-
-		Debug.Log (musicVolume + " " + muteMusic);
 	}
 }
