@@ -42,7 +42,8 @@ public class RobotAI : MonoBehaviour {
 		if (agent.remainingDistance < 0.5f && playerInSight == false) {
 			currentPoint++;
 			if (currentPoint >= patrolPoints.Length) currentPoint = 0;
-		}
+            agent.SetDestination(patrolPoints[currentPoint].position);
+        }
 
 		if (playerInSight && inRadius){
 			cooldown -= Time.deltaTime;
@@ -52,6 +53,11 @@ public class RobotAI : MonoBehaviour {
 		else{
 			agent.SetDestination(patrolPoints[currentPoint].position);
 		}
+
+        if (livesLeft == 0)
+        {
+            Destroy(gameObject);
+        }
 	}
 
 	void shootingMode(){

@@ -12,6 +12,6 @@ public class TimeLeft : MonoBehaviour {
 	}
 
 	void Update () {
-		timeText.text = "Time left: " + playerCtrl.timeLeft + "s";
+		timeText.text = "Time left: " + playerCtrl.timeLeft.ToString("F2") + "s";
 	}
 }

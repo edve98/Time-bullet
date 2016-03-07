@@ -7,6 +7,7 @@ public class PlayerControls : MonoBehaviour {
 
 	public GameObject bulletSpawn;
     public GameObject bullet;
+	Animator anim;
     Rigidbody rb;
     IngameMenu menuRef;
     void Start() {
@@ -22,8 +23,6 @@ public class PlayerControls : MonoBehaviour {
 
     public float delayTime = 0.2f;
     public float mouseFix;
-
-    public GameObject bulletmove;
 
     void Control()
     {
@@ -90,25 +89,31 @@ public class PlayerControls : MonoBehaviour {
     GameObject bullit;
     bool coolDownState = false;
 
+    public GameObject fireParticle;
+
     void Shoot()
     {
         if (coolDownState == false)
         {
             coolDownState = true;
 			bullit = Instantiate(bullet, bulletSpawn.transform.position, bulletSpawn.transform.rotation) as GameObject;
+
+            Instantiate(fireParticle, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
+
+
         }
     }
 
     public float coolDownTime;
-    float coolDownTimer;
+    public float coolDownTimer = 1.07f;
     void ShootDelay() {
         if (coolDownState)
         {
             TimeMoving = true;
-            coolDownTimer += Time.deltaTime;
-            if (coolDownTimer > coolDownTime)
+            coolDownTimer -= Time.deltaTime;
+            if (coolDownTimer < 0f)
             {
-                coolDownTimer = 0;
+                coolDownTimer = coolDownTime;
                 coolDownState = false;
                 TimeMoving = false;
             }
@@ -187,7 +192,10 @@ public class PlayerControls : MonoBehaviour {
         SwitchTimer();
         TimeFlowSetter();
         ShootDelay();
-	}
+		transform.position = new Vector3(transform.position.x, 0.82f, transform.position.z);
+
+
+    }
 
     public bool TimeMoving = false;
 

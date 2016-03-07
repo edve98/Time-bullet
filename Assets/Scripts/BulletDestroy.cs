@@ -9,7 +9,7 @@ public class BulletDestroy : MonoBehaviour {
 	}
 
     // Update is called once per frame
-    float bulletSpeed = 75;
+    public float bulletSpeed = 35;
 
 	void Update () {
         Rigidbody bullitrb = gameObject.GetComponent<Rigidbody>();
@@ -20,11 +20,13 @@ public class BulletDestroy : MonoBehaviour {
     void OnCollisionEnter (Collision obj) {
 		Debug.Log ("Hello from the other side to: " + obj.gameObject.name);
 		if (obj.gameObject.tag == "Enemy") {
-			Destroy(obj.gameObject);
+            if(!obj.gameObject.name.StartsWith("S"))
+                obj.gameObject.GetComponent<RobotAI>().livesLeft--;
         }
 		if (obj.gameObject.tag == "Player"){
 			obj.gameObject.GetComponent<PlayerControls>().livesLeft--;
 		}
+
 		Destroy(gameObject);
     }
 }

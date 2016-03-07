@@ -44,6 +44,7 @@ public class MusicBeh : MonoBehaviour {
     void Update()
     {
         musicOn = player.TimeMoving;
-		source.volume = SoundOptions.musicVolume;
+        if(SoundOptions.muteMusic) source.volume = 0f;
+        source.volume = SoundOptions.musicVolume;
     }
 }

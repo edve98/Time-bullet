@@ -12,6 +12,9 @@ public class BulletsLeft : MonoBehaviour {
 	}
 
 	void Update () {
-		bulletText.text = "Bullets left: " + playerCtrl.bulletsLeft;
+        if (playerCtrl.coolDownTimer <= 0) {
+            bulletText.text = "Gun is ready";
+        }
+		else bulletText.text = "Reloading in: " + playerCtrl.coolDownTimer.ToString("F2");
 	}
 }
